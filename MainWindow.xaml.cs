@@ -1,4 +1,5 @@
 ﻿using System.Configuration;
+using System.Data.SqlClient;
 using System.Windows;
 
 namespace ConexionGestionPedidos
@@ -13,6 +14,18 @@ namespace ConexionGestionPedidos
             InitializeComponent();
 
             string miConexion = ConfigurationManager.ConnectionStrings["ConexionGestionPedidos.Properties.Settings.GestionPedidosConnectionString"].ConnectionString;
+
+            miConnexionSql = new SqlConnection(miConexion);
+
+
         }
+
+        private void MuestraClientes()
+        {
+            string consulta = "SELECT * FROM Cliente";
+
+        }
+
+        SqlConnection miConnexionSql;
     }
 }
