@@ -20,6 +20,8 @@ namespace ConexionGestionPedidos
             miConnexionSql = new SqlConnection(miConexion);
 
             MuestraClientes();
+
+            MuestraTodosPedidos();
         }
 
         private void MuestraClientes()
@@ -36,6 +38,45 @@ namespace ConexionGestionPedidos
             }
         }
 
+        private void MuestraPedidos()
+        {
+            string consulta = "SELECT * FROM Pedido P INNER JOIN Cliente C ON P.cCliente=C.Id " +
+                "WHERE C.Id=@ClienteId";
+            
+            SqlCommand sqlComando = new SqlCommand(consulta, miConnexionSql);
+            
+            SqlDataAdapter miAdaptadorSql = new SqlDataAdapter(sqlComando);
+            using (miAdaptadorSql)
+            {
+                sqlComando.Parameters.AddWithValue("@ClienteId", listaClientes.SelectedValue);
+                DataTable pedidosTabla = new DataTable();
+                miAdaptadorSql.Fill(pedidosTabla);
+                pedidosCliente.DisplayMemberPath = "fechaPedido";
+                pedidosCliente.SelectedValuePath = "Id";
+                pedidosCliente.ItemsSource = pedidosTabla.DefaultView;
+            }
+        }
+
+        private void MuestraTodosPedidos()
+        {
+            string consulta = "SELECT CONCAT(cCliente, ' ', fechaPedido, ' ', formaPago) AS infoCompleta FROM Pedido P INNER JOIN Cliente C ON P.cCliente=C.Id";
+
+            SqlDataAdapter miAdaptadorSql = new SqlDataAdapter(consulta, miConnexionSql);
+            using (miAdaptadorSql)
+            {
+                DataTable pedidosTabla = new DataTable();
+                miAdaptadorSql.Fill(pedidosTabla);
+                todosPedidos.DisplayMemberPath = "infoCompleta";
+                todosPedidos.SelectedValuePath = "Id";
+                todosPedidos.ItemsSource = pedidosTabla.DefaultView;
+            }
+        }
+
         SqlConnection miConnexionSql;
+
+        private void listaClientes_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            MuestraPedidos();
+        }
     }
 }
