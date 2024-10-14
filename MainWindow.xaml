@@ -11,7 +11,7 @@
         <ListBox Name="listaClientes" Margin="34,114,796,35" FontSize="22" SelectionChanged="listaClientes_SelectionChanged"/>
         <Label Content="Pedidos Cliente" HorizontalAlignment="Left" Margin="335,36,0,0" VerticalAlignment="Top" Height="38" Width="270" FontSize="22"/>
         <ListBox Name="pedidosCliente" Margin="335,113,508,35" FontSize="22"/>
-        <Label Content="Todos los pedidos" HorizontalAlignment="Left" Margin="654,36,0,0" VerticalAlignment="Top" Height="38" Width="270" FontSize="22"/>
         <ListBox Name="todosPedidos" Margin="654,113,29,35" FontSize="22"/>
+        <Button Content="Borrar" HorizontalAlignment="Left" Margin="654,40,0,0" VerticalAlignment="Top" Height="34" Width="175" FontSize="22" Click="Button_Click"/>
     </Grid>
 </Window>

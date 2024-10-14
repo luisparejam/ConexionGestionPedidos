@@ -59,7 +59,7 @@ namespace ConexionGestionPedidos
 
         private void MuestraTodosPedidos()
         {
-            string consulta = "SELECT CONCAT(cCliente, ' ', fechaPedido, ' ', formaPago) AS infoCompleta FROM Pedido P INNER JOIN Cliente C ON P.cCliente=C.Id";
+            string consulta = "SELECT *, CONCAT(cCliente, ' ', fechaPedido, ' ', formaPago) AS infoCompleta FROM Pedido P INNER JOIN Cliente C ON P.cCliente=C.Id";
 
             SqlDataAdapter miAdaptadorSql = new SqlDataAdapter(consulta, miConnexionSql);
             using (miAdaptadorSql)
@@ -77,6 +77,19 @@ namespace ConexionGestionPedidos
         private void listaClientes_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             MuestraPedidos();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            //MessageBox.Show(todosPedidos.SelectedValue.ToString());
+
+            string consulta = "DELETE FROM Pedido WHERE Id=@PedidoId";
+            SqlCommand miSqlCommand = new SqlCommand(consulta, miConnexionSql);
+            miConnexionSql.Open();
+            miSqlCommand.Parameters.AddWithValue("PedidoId", todosPedidos.SelectedValue.ToString());
+            miSqlCommand.ExecuteNonQuery();
+            miConnexionSql.Close();
+            MuestraTodosPedidos();
         }
     }
 }
